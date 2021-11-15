@@ -29,7 +29,8 @@
     },
     methods: {
       onSubmit() {
-        this.$router.push('/home')
+        localStorage.setItem('ACCESS_TOKEN','11')
+        this.$router.push('/index')
       }
     }
   }

@@ -2,7 +2,7 @@
   <el-container style="height: 100%">
     <el-aside width="248px" style="background: #fff">
       <el-menu
-        default-active="index"
+        :default-active="activeName"
         class="el-menu-vertical-demo"
 
         router
@@ -31,7 +31,11 @@
       </el-menu>
     </el-aside>
     <el-container>
-      <el-header style="background:#fff"></el-header>
+      <el-header style="background:#fff;display:flex;align-items: center;
+    justify-content: flex-end;">
+    <el-button  icon="el-icon-s-fold" @click="goBack" circle></el-button>
+
+      </el-header>
       <el-main style="line-height:unset">
           <router-view />
       </el-main>
@@ -45,14 +49,21 @@
 export default {
   data() {
     return {
+      activeName: 'index',
       formInline: {
         user: "",
         password: "",
       },
     };
   },
+  mounted(){
+    this.activeName =  this.$route.name
+  },
   methods: {
-    
+    goBack(){
+      localStorage.removeItem('ACCESS_TOKEN')
+       this.$router.push('/login')
+    },
     onSubmit() {
       console.log("submit!");
     },

@@ -7,14 +7,19 @@ import VueRouter from "vue-router";
 // 我们晚点再讨论嵌套路由。
 const routes = [
   {
+    path: '/',
+    redirect: '/index'
+  },
+  {
     path: "/login",
     name: "login",
     component: () => import("../pages/login.vue"),
   },
   {
-    path: "/home",
+    path: "",
     name: "content",
     component: () => import("../pages/container.vue"),
+    redirect: '/index',
     children: [
       {
         path: "/index",
@@ -62,5 +67,17 @@ const router = new VueRouter({
   mode: "history",
   routes, // (缩写) 相当于 routes: routes
 });
+
+router.beforeEach((to, from, next)=>{
+  if(to.name == 'login'){
+    next()
+    return;
+  }
+  if(localStorage.getItem('ACCESS_TOKEN')){
+    next()
+  } else {
+    next({name:'login'})
+  }
+})
 
 export default router;
